@@ -4,6 +4,7 @@
 .vscode/
 build/
 dist/
+.idea/
 
 # ignorar esses arquivos
 *.pyc
