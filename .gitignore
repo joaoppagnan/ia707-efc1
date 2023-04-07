@@ -1,0 +1,20 @@
+# nao realizar o upload para o github das seguintes pastas 
+**/.ipynb_checkpoints/
+*__pycache__*
+.vscode/
+build/
+dist/
+
+# ignorar esses arquivos
+*.pyc
+*~
+*.out
+*.log
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.dvi
+*.blg
+*.bbl
+*.aux
+*.run.xml
