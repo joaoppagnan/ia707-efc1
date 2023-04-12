@@ -9,7 +9,7 @@ def calc_fitness_QAP(populacao, n_alelos, distancias, fluxos):
     :param n_alelos: quantidade de alelos no código genético da população
     :param distancias: distância entre as localidades
     :param fluxos: fluxo entre as instalações
-    :return: um array com os fitness
+    :return: um array com os fitness de cada individuo da populacao
     """
     fitness_pop = []
     for k in range(0, len(populacao)):
