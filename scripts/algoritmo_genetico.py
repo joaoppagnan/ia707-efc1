@@ -25,7 +25,26 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
     n_alelos = fluxos.shape[0]
 
     # gerar população inicial
-    pop_ini = gerar_pop(n_populacao, n_alelos)
+    populacao = gerar_pop(n_populacao, n_alelos)
 
     # calcula o fitness para ela
-    pop_ini = calc_fitness_QAP(pop_ini, distancias, fluxos)
+    populacao = calc_fitness_QAP(populacao, distancias, fluxos)
+
+    # inicializa a variável do melhor fitness para checar com o critério de parada
+    melhor_fitness = np.min(populacao[:, 1])
+    delta_fitness = melhor_fitness
+
+    # entra no loop principal do algoritmo
+    while delta_fitness >= criterio_de_parada:
+        fitness_anterior = melhor_fitness
+
+        # agora vai realizar a seleção -> recombinação -> mutação até que a população aumente para 3N/2 individuos
+        while len(populacao) < 2*n_populacao:
+
+            # seleciona dois pais
+            pais = []
+            for i in range(0, 2):
+                pai = selecao_torneio(populacao=populacao, q_torneio=q_torneio)
+                pais.append(pai)
+
+            # realiza a recombinação para produzir um descendente
