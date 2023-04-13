@@ -12,7 +12,6 @@ def recombinacao_ox(cromossomo_p1, cromossomo_p2):
     pais = [cromossomo_p1, cromossomo_p2]
     descendentes = []
     for indice_pai in range(0, 2):
-        print('indice pai:', indice_pai)
         cromossomo_descendente = np.full(shape=n_alelo, fill_value=-1)
         pos_corte_1 = np.random.randint(low=0, high=n_alelo-1)
         pos_corte_2 = np.random.randint(low=pos_corte_1, high=n_alelo)
@@ -21,14 +20,13 @@ def recombinacao_ox(cromossomo_p1, cromossomo_p2):
         locus = 0
         locus_pai = 0
         while locus < n_alelo:
-            print('locus:', locus)
-            print('locus pai:', locus_pai)
             if (locus < pos_corte_1) or (locus >= pos_corte_2):
-                print(cromossomo_descendente)
                 while pais[indice_pai][locus_pai] in cromossomo_descendente:
                     locus_pai += 1
-                    print('locus pai:', locus_pai)
-                cromossomo_descendente[locus] = pais[indice_pai - 1][locus_pai]
-            locus += 1
+                cromossomo_descendente[locus] = pais[indice_pai][locus_pai]
+                locus += 1
+                locus_pai += 1
+            elif (locus >= pos_corte_1) and (locus < pos_corte_2):
+                locus += 1
         descendentes.append([cromossomo_descendente, 0])
     return descendentes
