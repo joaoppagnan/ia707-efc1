@@ -6,6 +6,7 @@ from selecao_torneio import selecao_torneio
 from recombinacao_ox import recombinacao_ox
 from calc_custo_qap import calc_custo_qap
 
+
 def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: float,
                        path_mat_dados: str):
     """
@@ -27,8 +28,6 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
 
     # gerar população inicial
     populacao = gerar_pop(n_populacao, n_alelos)
-    individuo_otimo = [[9,10,7,18,14,19,13,17,6,11,4,5,12,8,15,16,1,2,3], 0]
-    populacao = np.vstack((populacao, individuo_otimo))
 
     # calcula o fitness para ela
     populacao = calc_fitness_qap(populacao, distancias, fluxos)
