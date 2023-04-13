@@ -1,10 +1,10 @@
 import numpy as np
 import scipy.io
 from gerar_pop import gerar_pop
-from calc_fitness_QAP import calc_fitness_QAP
+from calc_fitness_qap import calc_fitness_qap
 from selecao_torneio import selecao_torneio
 from recombinacao_ox import recombinacao_ox
-
+from calc_custo_qap import calc_custo_qap
 
 def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: float,
                        path_mat_dados: str):
@@ -27,9 +27,11 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
 
     # gerar população inicial
     populacao = gerar_pop(n_populacao, n_alelos)
+    individuo_otimo = [[9,10,7,18,14,19,13,17,6,11,4,5,12,8,15,16,1,2,3], 0]
+    populacao = np.vstack((populacao, individuo_otimo))
 
     # calcula o fitness para ela
-    populacao = calc_fitness_QAP(populacao, distancias, fluxos)
+    populacao = calc_fitness_qap(populacao, distancias, fluxos)
 
     # inicializa a variável do melhor fitness para checar com o critério de parada
     melhor_fitness = np.min(populacao[:, 1])
@@ -50,3 +52,4 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
 
             # realiza a recombinação para produzir um descendente
             descendentes = recombinacao_ox(cromossomo_p1=pais[0][0], cromossomo_p2=pais[1][0])
+            print(descendentes)
