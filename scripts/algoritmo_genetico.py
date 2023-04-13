@@ -3,6 +3,7 @@ import scipy.io
 from gerar_pop import gerar_pop
 from calc_fitness_QAP import calc_fitness_QAP
 from selecao_torneio import selecao_torneio
+from recombinacao_ox import recombinacao_ox
 
 
 def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: float,
@@ -48,3 +49,5 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
                 pais.append(pai)
 
             # realiza a recombinação para produzir um descendente
+            descendentes = recombinacao_ox(cromossomo_p1=pais[0][0], cromossomo_p2=pais[1][0])
+            print(descendentes)
