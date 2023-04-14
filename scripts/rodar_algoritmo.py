@@ -2,8 +2,8 @@ import numpy as np
 from algoritmo_genetico import algoritmo_genetico
 
 
-N_POPULACAO = 100
-CRITERIO_DE_PARADA = 1e-1
+N_POPULACAO = 10000
+CRITERIO_DE_PARADA = 1e-3
 Q_TORNEIO = 0.75
 P_MUTACAO = 0.3
 PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'

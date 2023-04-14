@@ -70,4 +70,5 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
         fitness_medio = np.average(populacao[:, 1])
         delta_fitness = fitness_medio - fitness_medio_anterior
 
+    # exibe o indivíduo de maior fitness
     print(populacao[-1])
