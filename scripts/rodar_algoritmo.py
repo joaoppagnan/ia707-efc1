@@ -3,7 +3,7 @@ from algoritmo_genetico import algoritmo_genetico
 
 
 N_POPULACAO = 100
-CRITERIO_DE_PARADA = 1e-2
+CRITERIO_DE_PARADA = 1e-1
 Q_TORNEIO = 0.75
 P_MUTACAO = 0.3
 PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'

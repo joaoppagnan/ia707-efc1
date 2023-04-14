@@ -40,11 +40,10 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
 
     # entra no loop principal do algoritmo
     while delta_fitness >= criterio_de_parada:
-        fitness_anterior = fitness_medio
+        fitness_medio_anterior = fitness_medio
 
         # agora vai realizar a seleção -> recombinação -> mutação até que a população aumente para 3N/2 individuos
         while len(populacao) < 2*n_populacao:
-
             # seleciona dois pais
             pais = []
             for i in range(0, 2):
@@ -57,3 +56,18 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
             # realiza a mutação com uma chance dada por pm
             for descendente in descendentes:
                 descendente[0] = mutacao_reversao(cromossomo=descendente[0], p_mutacao=p_mutacao)
+
+            # adiciona os descendentes na população
+            populacao = np.append(populacao, descendentes, axis=0)
+
+            # atualiza os fitness
+            populacao = calc_fitness_qap(populacao, distancias, fluxos)
+
+        # elimina os N individuos de menor fitness
+        populacao = populacao[populacao[:, 1].argsort()][n_populacao:len(populacao)]
+
+        # atualiza o fitness médio e o delta
+        fitness_medio = np.average(populacao[:, 1])
+        delta_fitness = fitness_medio - fitness_medio_anterior
+
+    print(populacao[-1])

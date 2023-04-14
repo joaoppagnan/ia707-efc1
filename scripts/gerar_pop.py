@@ -16,5 +16,5 @@ def gerar_pop(n_populacao, n_alelos):
             while gene in individuo:
                 gene = np.random.randint(low=1, high=n_alelos + 1)
             individuo.append(gene)
-        populacao.append([individuo, 0])  # a segunda dimensão armazena o fitness
+        populacao.append([np.array(individuo), 0])  # a segunda dimensão armazena o fitness
     return np.array(populacao, dtype=object)
