@@ -14,5 +14,5 @@ def selecao_torneio(populacao, q_torneio):
     for i in range(0, n_selecoes):
         indices_individuo_sorteado = np.random.randint(low=0, high=n_populacao)
         individuos_participantes.append(populacao[indices_individuo_sorteado, :])
-    melhor_individuo = individuos_participantes[np.array(individuos_participantes)[:, 1].argmin()]
+    melhor_individuo = individuos_participantes[np.array(individuos_participantes)[:, 1].argmax()]
     return melhor_individuo

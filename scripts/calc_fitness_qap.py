@@ -13,5 +13,6 @@ def calc_fitness_qap(populacao, distancias, fluxos):
     """
     n_alelos = fluxos.shape[0]
     for individuo in populacao:
-        individuo[1] = calc_custo_qap(individuo=individuo, distancias=distancias, fluxos=fluxos)
+        fitness = (1/calc_custo_qap(individuo=individuo, distancias=distancias, fluxos=fluxos))/(1/17212548)
+        individuo[1] = fitness
     return populacao
