@@ -8,7 +8,7 @@ from mutacao_reversao import mutacao_reversao
 from calc_custo_qap import calc_custo_qap
 
 
-def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: float, p_mutacao:float,
+def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: int, p_mutacao: float,
                        path_mat_dados: str):
     """
     Funcao principal do algoritmo genetico
@@ -34,17 +34,8 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
     # calcula o fitness para ela
     populacao = calc_fitness_qap(populacao, distancias, fluxos)
 
-    # inicializa a variável do melhor fitness para checar com o critério de parada
-    # fitness_medio = np.average(populacao[:, 1])
-    # melhor_fitness = 0
-    # delta_fitness = fitness_medio
-
-    n_geracao = 0
-
     # entra no loop principal do algoritmo
-    while n_geracao <= criterio_de_parada:
-        print(n_geracao)
-        # fitness_medio_anterior = fitness_medio
+    for n_geracao in range(0, criterio_de_parada):
 
         # agora vai realizar a seleção -> recombinação -> mutação até que a população aumente para 3N/2 individuos
         while len(populacao) < 2*n_populacao:
@@ -69,12 +60,5 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
 
         # elimina os N individuos de menor fitness
         populacao = populacao[populacao[:, 1].argsort()][n_populacao:len(populacao)]
-
-        # atualiza o fitness médio e o delta
-        # fitness_medio = np.average(populacao[:, 1])
-        # melhor_fitness = populacao[-1][1]
-        # delta_fitness = fitness_medio - fitness_medio_anterior
-
-        n_geracao += 1
 
     return populacao[-1]
