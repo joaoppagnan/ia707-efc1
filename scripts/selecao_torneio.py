@@ -10,8 +10,7 @@ def selecao_torneio(populacao, n_populacao, q_torneio):
     :return: melhor indivíduo do torneio
     """
     individuos_participantes = []
-    n_selecoes = int(q_torneio*n_populacao)
-    for i in range(0, n_selecoes):
+    for i in range(0, q_torneio):
         indices_individuo_sorteado = np.random.randint(low=0, high=n_populacao)
         individuos_participantes.append(populacao[indices_individuo_sorteado, :])
     melhor_individuo = individuos_participantes[np.array(individuos_participantes)[:, 1].argmax()]

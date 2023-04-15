@@ -14,7 +14,7 @@ def recombinacao_ox(cromossomo_p1, cromossomo_p2):
     for indice_pai in range(0, 2):
         cromossomo_descendente = np.full(shape=n_alelo, fill_value=-1)
         pos_corte_1 = np.random.randint(low=0, high=n_alelo-1)
-        pos_corte_2 = np.random.randint(low=pos_corte_1, high=n_alelo)
+        pos_corte_2 = np.random.randint(low=pos_corte_1+1, high=n_alelo)
         secao_cromossomo = pais[indice_pai][pos_corte_1:pos_corte_2]
         cromossomo_descendente[pos_corte_1:pos_corte_2] = secao_cromossomo
         locus = 0

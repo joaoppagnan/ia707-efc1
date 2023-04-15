@@ -14,7 +14,6 @@ def calc_fitness_qap(populacao, distancias, fluxos):
     :param fluxos: fluxo entre as instalações
     :return: a população com o fitness atualizado
     """
-    n_alelos = fluxos.shape[0]
     for individuo in populacao:
         if individuo[1] == 0:
             custo = calc_custo_qap(individuo=individuo, distancias=distancias, fluxos=fluxos)
