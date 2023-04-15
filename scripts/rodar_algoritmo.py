@@ -24,3 +24,6 @@ for _ in range(0, N_VEZES):
 print("Soluções:", solucoes)
 print("Fitness:", fitnesses)
 print("Custo:", custos)
+
+print("Valor médio do custo:", np.mean(custos))
+print("Desvio-padrão do custo:", np.std(custos))
