@@ -26,7 +26,7 @@ def recombinacao_ox(cromossomo_p1, cromossomo_p2):
                 cromossomo_descendente[locus] = pais[indice_pai-1][locus_pai]
                 locus += 1
                 locus_pai += 1
-            elif (locus >= pos_corte_1) and (locus < pos_corte_2):
+            else:
                 locus += 1
         descendentes.append([cromossomo_descendente, 0, 0])
     return descendentes
