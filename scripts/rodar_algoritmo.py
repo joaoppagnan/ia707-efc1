@@ -5,9 +5,9 @@ from algoritmo_genetico import algoritmo_genetico
 N_POPULACAO = 1000
 CRITERIO_DE_PARADA = 10
 Q_TORNEIO = 10
-P_MUTACAO = 1.0
+P_MUTACAO = 0.5
 PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'
-N_VEZES = 10
+N_VEZES = 1
 
 solucoes = []
 fitnesses = []
