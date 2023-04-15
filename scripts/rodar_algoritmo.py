@@ -7,7 +7,7 @@ CRITERIO_DE_PARADA = 10
 Q_TORNEIO = 10
 P_MUTACAO = 1.0
 PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'
-N_VEZES = 1
+N_VEZES = 10
 
 solucoes = []
 fitnesses = []
