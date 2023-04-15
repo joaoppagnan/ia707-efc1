@@ -35,19 +35,23 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
     populacao = calc_fitness_qap(populacao, distancias, fluxos)
 
     # inicializa a variável do melhor fitness para checar com o critério de parada
-    fitness_medio = np.average(populacao[:, 1])
-    delta_fitness = fitness_medio
+    # fitness_medio = np.average(populacao[:, 1])
+    # melhor_fitness = 0
+    # delta_fitness = fitness_medio
+
+    n_geracao = 0
 
     # entra no loop principal do algoritmo
-    while delta_fitness >= criterio_de_parada:
-        fitness_medio_anterior = fitness_medio
+    while n_geracao <= criterio_de_parada:
+        print(n_geracao)
+        # fitness_medio_anterior = fitness_medio
 
         # agora vai realizar a seleção -> recombinação -> mutação até que a população aumente para 3N/2 individuos
         while len(populacao) < 2*n_populacao:
             # seleciona dois pais
             pais = []
             for i in range(0, 2):
-                pai = selecao_torneio(populacao=populacao, q_torneio=q_torneio)
+                pai = selecao_torneio(populacao=populacao, n_populacao=n_populacao, q_torneio=q_torneio)
                 pais.append(pai)
 
             # realiza a recombinação para produzir um descendente
@@ -67,8 +71,10 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: f
         populacao = populacao[populacao[:, 1].argsort()][n_populacao:len(populacao)]
 
         # atualiza o fitness médio e o delta
-        fitness_medio = np.average(populacao[:, 1])
-        delta_fitness = fitness_medio - fitness_medio_anterior
+        # fitness_medio = np.average(populacao[:, 1])
+        # melhor_fitness = populacao[-1][1]
+        # delta_fitness = fitness_medio - fitness_medio_anterior
 
-    # exibe o indivíduo de maior fitness
-    print(populacao[-1])
+        n_geracao += 1
+
+    return populacao[-1]

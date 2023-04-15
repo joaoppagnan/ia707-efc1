@@ -8,7 +8,7 @@ def mutacao_reversao(cromossomo: np.ndarray, p_mutacao: float):
     :param p_mutacao: probabilidade de haver mutação
     :return: cromossomo mutado
     """
-    if np.random.rand() >= p_mutacao:
+    if np.random.rand() <= p_mutacao:
         n_alelos = len(cromossomo)
         cromossomo_mutado = np.full(shape=n_alelos, fill_value=-1)
         indice_1 = np.random.randint(low=0, high=n_alelos-1)
