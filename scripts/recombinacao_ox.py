@@ -21,9 +21,9 @@ def recombinacao_ox(cromossomo_p1, cromossomo_p2):
         locus_pai = 0
         while locus < n_alelo:
             if (locus < pos_corte_1) or (locus >= pos_corte_2):
-                while pais[indice_pai][locus_pai] in cromossomo_descendente:
+                while pais[indice_pai-1][locus_pai] in cromossomo_descendente:
                     locus_pai += 1
-                cromossomo_descendente[locus] = pais[indice_pai][locus_pai]
+                cromossomo_descendente[locus] = pais[indice_pai-1][locus_pai]
                 locus += 1
                 locus_pai += 1
             elif (locus >= pos_corte_1) and (locus < pos_corte_2):
