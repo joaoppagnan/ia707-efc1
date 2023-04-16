@@ -7,7 +7,8 @@ CRITERIO_DE_PARADA = 10
 Q_TORNEIO = 10
 P_MUTACAO = 0.5
 PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'
-N_VEZES = 1
+N_VEZES = 10
+PATH_SALVAR_MELHORES_SOLUCOES = "../melhores_solucoes/"
 
 solucoes = []
 fitnesses = []
@@ -21,9 +22,13 @@ for _ in range(0, N_VEZES):
     fitnesses.append(fitness)
     custos.append(custo)
 
-print("Soluções:", solucoes)
-print("Fitness:", fitnesses)
-print("Custo:", custos)
-
-print("Valor médio do custo:", np.mean(custos))
-print("Desvio-padrão do custo:", np.std(custos))
+np.savetxt(fname=PATH_SALVAR_MELHORES_SOLUCOES+'solucoes.txt', X=np.array(solucoes).reshape((len(solucoes), 19)),
+           delimiter=',', newline='\n', fmt='%i')
+np.savetxt(fname=PATH_SALVAR_MELHORES_SOLUCOES+'fitnesses.txt', X=np.array(fitnesses).reshape((len(fitnesses), 1)),
+           delimiter=',', newline='\n', fmt='%.4f')
+np.savetxt(fname=PATH_SALVAR_MELHORES_SOLUCOES+'custos.txt', X=np.array(custos).reshape((len(custos), 1)),
+           delimiter=',', newline='\n', fmt='%i')
+np.savetxt(fname=PATH_SALVAR_MELHORES_SOLUCOES+'custos-valor-medio.txt', X=np.array([np.mean(custos)]),
+           delimiter=',', newline='\n', fmt='%i')
+np.savetxt(fname=PATH_SALVAR_MELHORES_SOLUCOES+'custos-desvio-padrao.txt', X=np.array([np.std(custos)]),
+           delimiter=',', newline='\n')
