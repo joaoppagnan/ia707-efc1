@@ -13,7 +13,7 @@ plt.rcParams.update({
 })
 
 
-def gerar_grafico(dados: np.ndarray, titulo: str, eixo_x: str, eixo_y: str, legenda: str, nome_do_arquivo: str):
+def gerar_grafico(dados: np.ndarray, titulo: str, eixo_x: str, eixo_y: str, legenda: list, nome_do_arquivo: str):
     """
     Função para gerar um gráfico com os dados passados
     :param dados: dados a serem plotados
@@ -27,11 +27,10 @@ def gerar_grafico(dados: np.ndarray, titulo: str, eixo_x: str, eixo_y: str, lege
     dado_x = np.arange(0, len(dados[:, 0]), dtype=int)
 
     # curvas do custo médio
-    ax.plot(x=dado_x, y=dados[:, 1], c='b', fmt='o-', label=legenda[0])
+    ax.plot(dado_x, dados[:, 1], 'bo-', label=legenda[0])
 
     # curvas do custo mínimo
-    ax.scatter(x=dado_x)
-    ax.plot(x=dado_x, y=dados[:, 1], c='r', fmt='x-', label=legenda[1])
+    ax.plot(dado_x, dados[:, 2], 'rx-', label=legenda[1])
 
     # renomeia os eixos
     ax.set_xlabel(xlabel=eixo_x)

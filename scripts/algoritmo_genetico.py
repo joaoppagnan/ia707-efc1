@@ -5,11 +5,11 @@ from calc_fitness_qap import calc_fitness_qap
 from selecao_torneio import selecao_torneio
 from recombinacao_ox import recombinacao_ox
 from mutacao_reversao import mutacao_reversao
-from calc_custo_qap import calc_custo_qap
+from gerar_grafico import gerar_grafico
 
 
 def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: int, p_mutacao: float,
-                       path_mat_dados: str):
+                       path_mat_dados: str, rodada: int, path_graficos: str):
     """
     Funcao principal do algoritmo genetico
     :param n_populacao: número de indivíduos na população
@@ -17,6 +17,8 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: i
     :param criterio_de_parada: critério de parada a ser utilizado
     :param p_mutacao: probabilidade de acontecer uma mutação
     :param str path_mat_dados: caminho para a matriz com os dados
+    :param str rodada: rodada do algoritmo
+    :param str path_graficos: caminho para salvar os gráficos
     :return: melhor individuo e melhor fitness
     """
 
@@ -68,5 +70,12 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: i
 
         # elimina os N individuos de menor fitness
         populacao = populacao[populacao[:, 1].argsort()][n_populacao:len(populacao)]
+
+    # gera o grafico
+    titulo = "Custo médio e mínimo para a realização " + str(rodada) + " do algoritmo genético"
+    nome_do_arquivo = "rodada-" + str(rodada) + ".pdf"
+    legenda = ["Custo médio", "Custo mínimo"]
+    gerar_grafico(dados=dados_custo_fitness, titulo=titulo, eixo_x="Geração", eixo_y="Custo",
+                  nome_do_arquivo=path_graficos+nome_do_arquivo, legenda=legenda)
 
     return populacao[-1]

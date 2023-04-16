@@ -8,7 +8,7 @@ def calc_custo_qap(individuo, distancias, fluxos):
     :param individuo: solução que terá o custo calculado
     :param distancias: distância entre as localidades
     :param fluxos: fluxo entre as instalações
-    :return: a população com o fitness atualizado
+    :return: o custo de uma solução
     """
     n_alelos = fluxos.shape[0]
     custo = 0
