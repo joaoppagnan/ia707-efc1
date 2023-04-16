@@ -7,7 +7,7 @@ CRITERIO_DE_PARADA = 10
 Q_TORNEIO = 10
 P_MUTACAO = 0.5
 PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'
-RODADAS = 10
+REALIZAÇÕES = 10
 PATH_SALVAR_MELHORES_SOLUCOES = "../melhores_solucoes/"
 PATH_GRAFICOS = "../graficos/"
 
@@ -15,11 +15,11 @@ solucoes = []
 fitnesses = []
 custos = []
 
-for rodada in range(0, RODADAS):
+for realizacao in range(0, REALIZAÇÕES):
     solucao, fitness, custo = algoritmo_genetico(n_populacao=N_POPULACAO, q_torneio=Q_TORNEIO,
                                                  criterio_de_parada=CRITERIO_DE_PARADA,
                                                  p_mutacao=P_MUTACAO, path_mat_dados=PATH_MAT_DADOS,
-                                                 rodada=rodada, path_graficos=PATH_GRAFICOS)
+                                                 realizacao=realizacao, path_graficos=PATH_GRAFICOS)
     solucoes.append(solucao)
     fitnesses.append(fitness)
     custos.append(custo)

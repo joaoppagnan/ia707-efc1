@@ -38,7 +38,9 @@ def gerar_grafico(dados: np.ndarray, titulo: str, eixo_x: str, eixo_y: str, lege
 
     # outros ajustes do gráfico
     sns.despine()
+    ax.legend()
     ax.grid()
+    ax.set_title(titulo)
 
     # salva o gráfico
     fig.savefig(nome_do_arquivo)
