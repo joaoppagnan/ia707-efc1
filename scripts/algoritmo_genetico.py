@@ -34,8 +34,16 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: i
     # calcula o fitness para ela
     populacao = calc_fitness_qap(populacao, distancias, fluxos)
 
+    # inicializa o array para armazenar o custo médio, o fitness médio e o melhor custo
+    dados_custo_fitness = np.empty((criterio_de_parada, 3))
+
     # entra no loop principal do algoritmo
     for n_geracao in range(0, criterio_de_parada):
+
+        # atualiza o array
+        dados_custo_fitness[n_geracao, 0] = np.mean(populacao[:, 1])  # fitness medio
+        dados_custo_fitness[n_geracao, 1] = np.mean(populacao[:, 2])  # custo medio
+        dados_custo_fitness[n_geracao, 2] = np.min(populacao[:, 2])  # melhor custo
 
         # agora vai realizar a seleção -> recombinação -> mutação até que a população aumente para 3N/2 individuos
         while len(populacao) < 2*n_populacao:
