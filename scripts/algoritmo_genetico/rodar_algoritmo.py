@@ -6,10 +6,10 @@ N_POPULACAO = 1000
 CRITERIO_DE_PARADA = 10
 Q_TORNEIO = 10
 P_MUTACAO = 0.5
-PATH_MAT_DADOS = '../dados/elshafei_QAP.mat'
+PATH_MAT_DADOS = '../../dados/elshafei_QAP.mat'
 REALIZACOES = 10
-PATH_SALVAR_MELHORES_SOLUCOES = "../melhores_solucoes/"
-PATH_GRAFICOS = "../graficos/"
+PATH_SALVAR_MELHORES_SOLUCOES = "../../melhores_solucoes/algoritmo-genetico/"
+PATH_GRAFICOS = "../../graficos/algoritmo-genetico/"
 
 solucoes = []
 fitnesses = []

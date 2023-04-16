@@ -12,9 +12,7 @@ def calc_custo_qap(individuo, distancias, fluxos):
     """
     n_alelos = fluxos.shape[0]
     custo = 0
-    casos_vistos = []
     for i in range(0, n_alelos):
         for j in range(0, n_alelos):
             custo += distancias[i, j]*fluxos[individuo[0][i] - 1, individuo[0][j] - 1]
-            casos_vistos.append((i, j))
     return custo
