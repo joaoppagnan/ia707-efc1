@@ -3,6 +3,7 @@
 \usepackage{palatino}
 \usepackage[breaklinks=true]{hyperref}
 \usepackage{graphicx}
+\usepackage{cprotect}
 \usepackage{caption}
 \usepackage[left=3cm, right=2cm, top=3cm, bottom=2cm]{geometry}
 \geometry{a4paper}
@@ -13,7 +14,6 @@
 \sisetup{detect-all}
 \usepackage{float}
 \usepackage{ragged2e}
-\usepackage{examplep}
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt} 
 \lhead{}\chead{}\rhead{}
@@ -124,7 +124,7 @@
 
 \justify
 
-Neste exercício, vamos abordar a instância do QAP tratada em \cite{elshafei1977hospital}, que estudou a alocação de 19 clínicas em um departamento do Hospital Ahmed Maher, no Cairo, Egito, considerando o fluxo de pacientes entre elas, com o auxílio de um algoritmo genético (GA, do inglês \textit{genetic algorithm}). O arquivo \Pverb|elshafei QAP.mat| traz a matriz $\mathbf{W}$ com os fluxos previstos entre as instalações, assim como a matriz $\mathbf{D}$ com as distâncias entre as localidades.
+Neste exercício, vamos abordar a instância do QAP tratada em \cite{elshafei1977hospital}, que estudou a alocação de 19 clínicas em um departamento do Hospital Ahmed Maher, no Cairo, Egito, considerando o fluxo de pacientes entre elas, com o auxílio de um algoritmo genético (GA, do inglês \textit{genetic algorithm}). O arquivo \verb|elshafei_QAP.mat| traz a matriz $\mathbf{W}$ com os fluxos previstos entre as instalações, assim como a matriz $\mathbf{D}$ com as distâncias entre as localidades.
 
 \textbf{a) Escolha uma representação adequada para as soluções candidatas e uma função de avaliação (\textit{fitness}). Discuta as razões que o motivaram a tais escolhas, além de apontar a cardinalidade do espaço de busca.}
 
@@ -134,7 +134,7 @@ sendo que $0 \leq x_o \leq n - 1$ para $o \in \mathbb{N}, 0 \leq o \leq n - 1$, 
 
 Esta representação foi escolhida pois, além de ser a utilizada em \cite{elshafei1977hospital}, permite representar cada solução por um vetor de $n$ inteiros entre 1 e $n$, ou seja, representar cada solução como se fosse uma cadeia de números, facilitando a aplicação de diversos operadores de mutação. Caso fossemos representar cada solução por uma matriz $n \times n$, em que $x_{ij} \in 0, 1, 0 \leq i, j \leq n$, a aplicação desses operadores seria mais complexa.
 
-A representação escolhida possui cardinalidade $n!$, afinal, trata-se da permu\-tação de um conjunto de $n$ elementos, indicando que, caso $n$ for muito grande, uma solução por força bruta demorará para chegar na solução ótima, ou nem a alcançará.
+A representação escolhida possui cardinalidade $n!$, afinal, trata-se da permu\-tação de um conjunto de $n$ elementos, indicando que, caso $n$ for muito grande, uma solução por força bruta demorará para chegar na solução ótima, ou nem a alcançará. Para esse problema, temos que $n = 19$, de forma que a cardinalidade é igual a $19!$.
 
 A função de avaliação que será utilizada é uma variação da função custo. No caso, deseja-se minimizar a seguinte função custo:
 \begin{equation}\label{eq:custo}
@@ -166,11 +166,11 @@ O algoritmo genético a ser utilizado possui as seguintes etapas:
     \item Repetir do passo 3 ao 8 até o critério de parada ser atingido.
 \end{enumerate}
 
-A \textbf{geração da população inicial} será da seguinte forma, sendo $N$ o tamanho da população e $n$ o número de instalações e localidades:
-\begin{brprocess}[H]
+A \textbf{geração da população inicial} será da forma indicada no processo \ref{alg:pop-inicial}, sendo $N$ o tamanho da população e $n$ o número de instalações e localidades.
+\begin{brprocess}[!ht]
 \textbf{Paramêtros}: Tamanho da população desejada e tamanho do cromossomo\\
 \textbf{Saída}: População gerada
-\caption{Geração aleatória da população inicial (\Pverb|gerar_pop(N, n)|)}
+\cprotect\caption{Geração aleatória da população inicial (\verb|gerar_pop(N, n)|)}
 \begin{algorithmic}
 \State população $\gets [\;]$
 \State $i\gets 0$
@@ -193,21 +193,20 @@ A \textbf{geração da população inicial} será da seguinte forma, sendo $N$ o
 \EndWhile
 \State \textbf{retorna} população
 \end{algorithmic}
+\label{alg:pop-inicial}
 \end{brprocess}
 
 Vale ser mencionado que, para esta representação, composta por uma permutação de $n$ números diferentes, a quantidade de alelos é igual ao tamanho do cromossomo. Além disso, cada indivíduo da população irá armazenar o seu cromossomo, seu valor de \textit{fitness} e seu custo.
 
-O \textbf{cálculo do \textit{fitness}} seguirá a equação \ref{eq:fitness} e pode ser descrito pelo seguinte algoritmo:
+O \textbf{cálculo do \textit{fitness}} seguirá a equação \ref{eq:fitness} e pode ser descrito pelo processo \ref{alg:fitness}.
 \begin{brprocess}[H]
 \textbf{Entradas}: população, matriz com as distâncias e matriz com os fluxos\\
 \textbf{Saída}: população com os valores de \textit{Fitness} e custo atualizados
-
-\caption{Cálculo do \textit{fitness} e do custo (\Pverb|calc_fitness_qap(populacao, D, W)|)}
+\cprotect\caption{Cálculo do \textit{fitness} e do custo (\verb|calc_fitness_qap(populacao, D, W)|)}
 \begin{algorithmic}
-
 \For{indivíduo \textbf{em} população}
     \If{indivíduo[1] = 0}
-        \State{custo = \Pverb|calc_custo_qap(indivíduo, D, W)|}
+        \State{custo = \verb|calc_custo_qap(indivíduo, D, W)|}
         \State{fitness = (1/custo)/(1/17212548)}
         \State indivíduo[1] = fitness
         \State indivíduo[2] = custo
@@ -215,13 +214,15 @@ O \textbf{cálculo do \textit{fitness}} seguirá a equação \ref{eq:fitness} e 
 \EndFor
 \State \textbf{retorna} população
 \end{algorithmic}
+\label{alg:fitness}
 \end{brprocess}
 
-A função \Pverb|calc_custo_qap()| calcula o custo para a respectiva solução. Com isso, o algoritmo determina os valores da função de avalização e do custo de cada indivíduo da população.
+A função \verb|calc_custo_qap()| calcula o custo para a respectiva solução. Com isso, o algoritmo determina os valores da função de avalização e do custo de cada indivíduo da população.
 
-Na quarta etapa, o GA aplica o \textbf{operador de seleção de torneio} na população. Esse método utiliza o parâmetro $q$, que é igual a quantidade de indivíduos da população selecionados por torneio. Esse método é executado duas vezes no algoritmo genético, de forma a determinar dois pais para a recombinação e é descrito da seguinte forma:
-\begin{brprocess}[H]
-    \caption{Operador de seleção por torneio (\Pverb|selecao_torneio(populacao, N, q_torneio)|}
+Na quarta etapa, o GA aplica o \textbf{operador de seleção de torneio} na população. Esse método utiliza o parâmetro $q$, que é igual a quantidade de indivíduos da população selecionados por torneio. Esse método é executado duas vezes no algoritmo genético, de forma a determinar dois pais para a recombinação e é descrito pelo processo \ref{alg:selecao}.
+\begin{brprocess}[!ht]
+    \cprotect\caption{Operador de seleção por torneio (\verb|selecao_torneio(populacao,|
+    \verb|N, q_torneio)|}
     \textbf{Entrada:} população\\
     \textbf{Parâmetros}: quantidade de indivíduos da população selecionados por torneio e tamanho da população inicial\\
     \textbf{Saída}: o melhor indivíduo escolhido no torneio
@@ -233,23 +234,25 @@ Na quarta etapa, o GA aplica o \textbf{operador de seleção de torneio} na popu
                 \State indivíduos participantes $[i] \gets$ população [indivíduo]
                 \State $i \gets i + 1$
             \EndWhile
-            \State indice do melhor indivíduo $\gets$ indivíduos participantes[\Pverb|argmax|(indivíduos participantes [:,1]])
+            \State indice do melhor indivíduo $\gets$ indivíduos participantes[\verb|argmax|(indivíduos participantes [:,1]])
             \State melhor indivíduo $\gets$ indivíduos participantes[índice do melhor indivíduo]
             \State \textbf{retorna} melhor indivíduo
     \end{algorithmic}
+    \label{alg:selecao}
 \end{brprocess}
 
 Este operador foi escolhido por possibilitar o ajuste da pressão seletiva na população pelo parâmetro $q$.
 
-Em seguida, na quinta etapa, o operador de recombinação que será aplicado foi o método de \textit{crossover} ordenado (OX1), devido a sua facilidade de implementar e por permitir ser aplicado a permutações. Sendo $P1$ e $P2$ os pais e $D1$ e $D2$ os descendentes, esse método é descrito por:
-\begin{brprocess}[H]
-    \caption{Operador de recombinação (\Pverb|crossover_ox1(cromossomo_p1, cromossomo_p2)|)}
+Em seguida, na quinta etapa, o \textbf{operador de recombinação} que será aplicado foi o método de \textit{crossover} ordenado (OX1), devido a sua facilidade de implementar e por permitir ser aplicado a permutações. Sendo $P1$ e $P2$ os pais e $D1$ e $D2$ os descendentes, esse método é descrito pelo processo \label{alg:recombinacao}.
+\begin{brprocess}[!ht]
+    \cprotect\caption{Operador de recombinação (\verb|crossover_ox1(cromossomo_p1,|
+    \verb|cromossomo_p2)|)}
     \textbf{Entrada}: cromossomo dos dois pais\\
     \textbf{Saída}: cromossomo de ambos os filhos
     \begin{algorithmic}
         \State $i \gets 0$
         \State pais $\gets [cromossomo_p1, cromossomo_p2]$
-        \State n_{alelos} $$\gets $ \Pverb|len(cromossomo_p1)|
+        \State n_{alelos} $\gets$ \verb|len(cromossomo_p1)|
         \State descendentes $\gets [\;]$
         \While{$i < 2$}
             \State cromossomo do descendente $\gets [\;]$
@@ -275,22 +278,23 @@ Em seguida, na quinta etapa, o operador de recombinação que será aplicado foi
             \State $i \gets i + 1$
         \EndWhile
     \end{algorithmic}
+    \label{alg:recombinacao}
 \end{brprocess}
 
 Como pode ser observado, decidiu-se que será utilizada apenas uma seção do cromossomo do pai escolhido para o descendente e esta seção não será circular. Isso foi escolhido para facilitar a implementação do código e ainda assim permitir que haja uma recombinação das permutações.
 
-Por fim, resta detalhar o operador de mutação utilizado. Neste caso, foi escolhido a mutação de reverter a ordem dos genes presentes em um segmento do cromossomo. Além disso, foi escolhido que a mutação tem uma probabilidade $p_m$ de acontecer, ou seja, dela não acontecer no cromossomo do descendente e ser mantido o cromossomo original.
+Por fim, resta detalhar o \textbf{operador de mutação} utilizado. Neste caso, foi escolhido a mutação de reverter a ordem dos genes presentes em um segmento do cromossomo. Além disso, foi escolhido que a mutação tem uma probabilidade $p_m$ de acontecer, ou seja, dela não acontecer no cromossomo do descendente e ser mantido o cromossomo original.
 
-O processo pode ser descrito da seguinte forma:
-\begin{brprocess}[H]
-    \caption{Operador de mutação (\Pverb|mutacao_reversao(cromossomo)|)}
+O processo pode ser descrito da forma indicada no processo \ref{alg:mutacao}.
+\begin{brprocess}[!ht]
+    \cprotect\caption{Operador de mutação (\verb|mutacao_reversao(cromossomo)|)}
     \textbf{Entrada}: cromossomo a ser mutado\\
     \textbf{Parâmetros}: probabilidade da mutação ocorrer\\
     \textbf{Saída}: cromossomo mutado
     \begin{algorithmic}
         \State{número $\gets k \in \{0, ..., p_m\}, k \in \mathbb{R}$}
         \If{número $<= p_m$}
-            \State $n \gets $ \Pverb|len(cromossomo)|
+            \State $n \gets $ \verb|len(cromossomo)|
             \State cromossomo mutado $\gets [\;]$
             \State índice 1 $\gets i \in \{0, 1, 2, ..., n - 2\}$
             \State índice 2 $\gets i \in \{$índice 1 $+ 1, $índice 1 $+ 2, ..., n - 1\}$
@@ -306,44 +310,219 @@ O processo pode ser descrito da seguinte forma:
                 \State$i \gets i + 1$
         \EndWhile
     \end{algorithmic}
+    \label{alg:mutacao}
 \end{brprocess}
 
-Novamente, escolhemos não considerar o cromossomo e o genótipo como algo circular para facilitar a programação deste operador.
+Novamente, escolhemos não considerar o cromossomo e o genótipo como algo circular para facilitar a programação desse operador.
 
 Com isso, foram descritos os operadores escolhidos para serem utilizados na geração de indivíduos desse algoritmo genético.
 
-Estes operadores serão executados nessa sequência até que a população tenha $2N$ soluções, quando ocorrerá uma eliminação dos $N$ indivíduos de menor \textit{fitness}. Esse processo será repetido até o critério de parada ser atingido. No caso, o critério de parada escolhido foi o número de gerações $n_g$.
+Estes operadores serão executados nessa sequência até que a população tenha $2N$ soluções, quando ocorrerá uma eliminação dos $N$ indivíduos de menor \textit{fitness}. Esse processo será repetido até o critério de parada ser atingido. 
+
+O \textbf{critério de parada} escolhido para o algoritmo foi o número de gerações $n_g$. 
 
 Esse algoritmo tem, portanto, os seguintes parâmetros:
-\begin{listing}
+\begin{itemize}
     \item $N$: tamanho da população inicial;
     \item $q$: quantidade de indivíduos presentes no torneio;
     \item $p_m$: probabilidade de ocorrer uma mutação;
-    \item $n_g$: número de gerações
-\end{listing}
+    \item $n_g$: número de gerações.
+\end{itemize}
 
-O valor de cada parâmetro foi determinado de maneira exploratória, e os valores escolhidos foram:
+O valor de cada parâmetro foi determinado de maneira exploratória, sendo que os valores escolhidos estão indicados na tabela \ref{tab:valores-parametros}.
 \begin{table}[H]
     \centering
-    \begin{tabular}{c|c}
-        $N$ & 1000\\
-        $q$ & 10\\
-        $p_m$ & 0.5\\
-        $n_g$ & 10\\
+    \begin{tabular}{c c}
+    \toprule
+        $\bm{N}$ & 1000\\
+        $\bm{q}$ & 10\\
+        $\bm{p_m}$ & 0.5\\
+        $\bm{n_g}$ & 10\\
+    \bottomrule
     \end{tabular}
-    \caption{Caption}
-    \label{tab:my_label}
+    \caption{Valores para os parâmetros do algoritmo genético.}
+    \label{tab:valores-parametros}
 \end{table}
 
 \textbf{c) Execute o GA construído no item b) 10 vezes, gerando, em cada caso, uma população inicial aleatória. Apresente a melhor solução obtida pelo algoritmo e o respectivo custo em cada execução. Além disso, compute o custo médio e o desvio padrão nesse conjunto de execuções. Comente.}
 
-Executando o algoritmo construído no item anterior 10 vezes foram obtidas as seguintes melhores soluções e custos:
+Executando o algoritmo construído no item anterior 10 vezes, e em cada caso gerando uma nova população inicial aleatória, foram obtidas as melhores soluções e custos mínimos que estão mostrados na tabela \ref{tab:conjunto-melhores-solucoes}.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+        \toprule
+        \textbf{Realização} & \textbf{Melhor solução} & \textbf{Custo} \\
+        \midrule
+         1 & 12,14,8,18,19,7,13,17,4,11,10,5,9,6,16,15,1,2,3 & 17781022\\
+         2 & 16,15,18,7,9,19,13,10,6,11,17,8,14,4,12,5,3,2,1 & 20470394\\
+         3 & 16,15,7,19,11,6,8,17,13,9,4,5,18,10,14,12,1,2,3 & 19223152\\
+         4 & 12,4,8,11,19,14,5,10,7,9,13,17,18,6,15,16,1,2,3 & 18108372\\
+         5 & 9,10,19,6,7,14,17,13,4,18,8,5,11,12,16,15,1,2,3 & 18415348\\
+         6 & 19,8,12,6,18,11,5,13,7,9,10,17,14,4,16,15,1,2,3 & 18068842\\
+         7 & 9,18,6,14,11,19,8,17,13,12,4,10,7,5,15,16,1,2,3 & 18100544\\
+         8 & 12,6,9,19,14,8,13,17,18,7,4,10,11,5,16,15,1,2,3 & 18528502\\
+         9 & 18,6,4,19,9,12,17,10,13,11,5,7,14,8,15,16,1,2,3 & 18390660\\
+         10 & 9,10,19,12,14,11,6,17,4,7,5,8,18,13,15,16,1,2,3 & 18350402\\
+         \midrule
+         \textbf{Solução ótima} & 9,10,7,18,14,19,13,17,6,11,4,5,12,8,15,16,1,2,3 & 17212548\\
+         \midrule
+         \multicolumn{2}{c|}{\textbf{Custo médio e desvio padrão do conjunto de execuções}} & $18543723 \pm 737859.127$ \\
+         \bottomrule
+    \end{tabular}
+    \caption{Melhores soluções e custos para as 10 execuções do algoritmo genético, juntamente com o custo médio e desvio padrão deste conjunto.}
+    \label{tab:conjunto-melhores-solucoes}
+\end{table}
+
+É interessante notar alguns aspectos importantes quando analisamos as melhores soluções e os custos obtidos. Primeiramente, vê-se que o desvio padrão dos custos obtidos foi de $3.979\%$ do valor médio dessa grandeza, indicando que o algoritmo genético projetado está tendo uma boa precisão ao gerar novas soluções quando é executado. Além disso, o desvio do valor médio em relação ao custo ótimo é de $7.734\%$, mostrando que o algoritmo também possui uma exatidão boa.
+
+Em relação às melhores soluções de cada execução, é interessante notar certos padrões nas permutações obtidas. Vê-se que diversas permutações da tabelas possuem a sequência $15,16,1,2,3$ no fim delas, podendo haver uma troca nas posições dos números $15$ e $16$. Essa sequência também está presente na solução ótima, indicando que, possivelmente, se o algoritmo ser executado por mais gerações, ele pode convergir para a melhor permutação. Por fim, nota-se que certas alocações para determinadas localidades também estiveram presentes em algumas alocações e também na solução ótima, como a instalação 9 na primeira localidade.
 
 \textbf{d) Para cada uma das 10 realizações do item c), apresente as curvas de custo médio da população, bem como do custo do melhor indivíduo (ou seja, do custo mínimo) em função do número de gerações. Discuta o desempenho do algoritmo à luz dos resultados obtidos, das curvas de custo geradas e das próprias características do problema.}
 
+Registrando a evolução do custo médio na população e do melhor custo em cada geração para cada uma das dez realizações executadas do algoritmo genético, foram construídas as curvas indicadas na figura \ref{fig:curvas}.
+
+É interessante notar que, em todas as realizações, o custo mínimo sempre foi bem abaixo do custo médio na geração 0, ou seja, em relação ao custo médio da população inicial aleatória. Nas gerações seguintes, vê-se que houve uma queda brusca do custo médio da população, se assemelhando a uma função exponencial decrescente, indicando que os genes do cromossomo do melhor indivíduo da população inicial está se propagando pelas gerações e, ao se recombinar com o cromossomo de outros indivíduos ao longo das iterações do algoritmo, se torna mais parecido com o cromossomo da solução ótima. 
+
+Além disso, como indicado no item anterior, sequências presentes na permutação da solução ótima estão presentes em diversas melhores soluções das dez execuções realizadas, indicando que, com o passar das gerações, características do genótipo que levam ao custo mínimo estão surgindo na população devido aos operadores implementados.
+
+Desta forma, é de se esperar que, caso o número de gerações fosse maior ainda ou houvesse um aumento no tamanho da população inicial, de forma a introduzir maior variedade nela, o algoritmo seja capaz de se aproximar ainda mais da solução ótima, ou, até mesmo, alcançá-la. 
+
+Portanto, pode-se concluir que o algoritmo genético desenvolvido teve um bom desempenho em encontrar soluções ótimas para esse QAP.
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-0.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-1.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-2.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-3.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-4.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-5.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-6.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-7.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-8.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/realizacao-9.pdf}
+\end{subfigure}
+\hfill
+\caption{Curvas do custo médio da população e do custo mínimo para cada uma das dez realizações do algoritmo genético.}
+\label{fig:curvas}
+\end{figure}
+
 \textbf{e) Implemente, por fim, uma busca aleatória e faça 10 execuções independentes considerando a mesma quantidade de avaliações da função de \textit{fitness} que o GA consumiu. Compare os resultados obtidos pelos dois métodos.}
 
-\newpage
+Implementando um algoritmo de busca aleatória, com dez avaliações da função de \textit{fitness} escolhida e mantendo a solução aleatória que possui o melhor valor para essa função, foram obtidos os resultados nas dez realizações indicados na tabela \ref{tab:conjunto-melhores-solucoes-busca}.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+        \toprule
+        \textbf{Realização} & \textbf{Melhor solução} & \textbf{Custo} \\
+        \midrule
+         1 & 6,5,8,18,12,14,19,17,2,11,10,4,7,1,16,15,13,9,3 & 25995342\\
+         2 & 2,1,4,12,14,17,18,10,11,13,8,7,3,5,19,9,16,15,6 & 27383384\\
+         3 & 19,17,7,14,11,4,6,3,16,8,15,18,12,10,9,5,2,1,13 & 28094206\\
+         4 & 16,13,12,15,18,7,11,3,17,19,8,6,10,14,9,4,5,2,1 & 27584484\\
+         5 & 5,14,9,12,7,10,17,1,8,6,13,19,11,4,15,16,18,2,3 & 23551088\\
+         6 & 7,5,17,18,15,8,4,3,11,16,13,19,12,10,14,9,6,2,1 & 25465324\\
+         7 & 16,15,18,10,9,6,13,4,17,7,19,8,12,3,14,11,2,1,5 & 24954922\\
+         8 & 18,3,17,13,14,11,9,6,10,12,19,7,4,5,15,16,1,2,8 & 25022700\\
+         9 & 7,16,15,14,11,18,3,17,12,8,6,9,10,13,5,4,1,2,19 & 27925714\\
+         10 & 11,6,18,4,7,14,3,17,2,19,1,10,9,5,12,13,16,15,8 & 28345402\\
+         \midrule
+         \textbf{Solução ótima} & 9,10,7,18,14,19,13,17,6,11,4,5,12,8,15,16,1,2,3 & 17212548\\
+         \midrule
+         \multicolumn{2}{c|}{\textbf{Custo médio e desvio padrão do conjunto de execuções}} & $26432256 \pm 1564648.213$ \\
+         \bottomrule
+    \end{tabular}
+    \caption{Melhores soluções e custos para as 10 execuções da busca aleatória, juntamente com o custo médio e desvio padrão deste conjunto.}
+    \label{tab:conjunto-melhores-solucoes-busca}
+\end{table}
+
+E, utilizando a progressão do custo mínimo e médio do conjunto de soluções, foram obtidas as curvas apresentadas na figura \ref{fig:curvas-busca-aleatoria}.
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-0.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-1.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-2.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-3.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-4.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-5.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-6.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-7.pdf}
+\end{subfigure}
+\hfill
+\\
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-8.pdf}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figuras/iteracao-9.pdf}
+\end{subfigure}
+\hfill
+\caption{Curvas do custo médio da população e do custo mínimo para cada uma das dez realizações da busca aleatória.}
+\label{fig:curvas-busca-aleatoria}
+\end{figure}
+
+Analisando as soluções obtidas em cada realização, e seus respectivos valores de custo, vê-se que a busca aleatória não foi nem próxima de se aproximar da solução ótima. Além de um desvio padrão de cerca de $6\%$ do valor médio do custo do conjunto de soluções indicado, observa-se que o desvio do valor médio em relação ao custo ótimo foi de $53.56\%$, indicando que uma busca aleatória seria um método muito ineficaz para resolver esse QAP, como esperado. Um outro fator que deve ser mencionado é que, como mencionado anteriormente, a cardinalidade desse problema é $19!$, de forma que há cerca de $\num{1.216e17}$ soluções para esse problema, evidenciando que uma busca aleatória seria extremamente ineficaz para resolvê-lo.
+
+Quando as curvas do custo mínimo e médio ao longo das iterações são analisadas, vê-se algumas características interessantes. A primeira delas é que não há nenhuma grande redução em ambas as curvas, afinal, nenhum método de busca ou processo evolutivo está sendo utilizado. Além disso, vê-se que o valor do custo médio no conjunto de soluções é próximo ao valor dessa grandeza na população inicial, bem como o valor mínimo sendo próximo ao valor obtido pela melhor solução na geração inicial. 
+
+Desta forma, vê-se que o algoritmo genético possui um desempenho bem superior a busca aleatória quando aplicado a resolução de problemas quadráticos de alocação. Caso $n$ fosse menor e houvesse menos permutações possíveis, a busca aleatória poderia ter um desempenho mais comparável ao algoritmo genético, mas, como esse não é o caso, vê-se que o método evolutivo foi extremamente superior.
+
+\clearpage
 
 \bibliographystyle{ieeetr}
 
@@ -352,5 +531,4 @@ Executando o algoritmo construído no item anterior 10 vezes foram obtidas as se
 \pdfinfo{
    /Title  (IA707 - EFC I - 199727 e 218762)
 }
-
-a\end{document}
+ \end{document}
