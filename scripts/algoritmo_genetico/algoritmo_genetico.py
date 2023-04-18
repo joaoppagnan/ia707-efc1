@@ -39,13 +39,13 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: i
     # inicializa o array para armazenar o custo médio, o fitness médio e o melhor custo
     dados_custo_fitness = np.empty((criterio_de_parada, 3))
 
-    # entra no loop principal do algoritmo
-    for n_geracao in range(0, criterio_de_parada):
+    # calcula para a população inicial
+    dados_custo_fitness[0, 0] = np.mean(populacao[:, 1])  # fitness medio
+    dados_custo_fitness[0, 1] = np.mean(populacao[:, 2])  # custo medio
+    dados_custo_fitness[0, 2] = np.min(populacao[:, 2])  # melhor custo
 
-        # atualiza o array
-        dados_custo_fitness[n_geracao, 0] = np.mean(populacao[:, 1])  # fitness medio
-        dados_custo_fitness[n_geracao, 1] = np.mean(populacao[:, 2])  # custo medio
-        dados_custo_fitness[n_geracao, 2] = np.min(populacao[:, 2])  # melhor custo
+    # entra no loop principal do algoritmo
+    for n_geracao in range(1, criterio_de_parada):
 
         # agora vai realizar a seleção -> recombinação -> mutação até que a população aumente para 3N/2 individuos
         while len(populacao) < 2*n_populacao:
@@ -68,12 +68,17 @@ def algoritmo_genetico(n_populacao: int, q_torneio: float, criterio_de_parada: i
             # atualiza os fitness
             populacao = calc_fitness_qap(populacao, distancias, fluxos)
 
+            # atualiza o array
+            dados_custo_fitness[n_geracao, 0] = np.mean(populacao[:, 1])  # fitness medio
+            dados_custo_fitness[n_geracao, 1] = np.mean(populacao[:, 2])  # custo medio
+            dados_custo_fitness[n_geracao, 2] = np.min(populacao[:, 2])  # melhor custo
+
         # elimina os N individuos de menor fitness
         populacao = populacao[populacao[:, 1].argsort()][n_populacao:len(populacao)]
 
     # gera o grafico
-    titulo = "Curvas de custo médio e mínimo para a realização " + str(realizacao) + " do algoritmo genético"
-    nome_do_arquivo = "realizacao-" + str(realizacao) + ".pdf"
+    titulo = "Curvas de custo médio e mínimo para a realização " + str(realizacao+1) + " do algoritmo genético"
+    nome_do_arquivo = "realizacao-" + str(realizacao+1) + ".pdf"
     legenda = ["Custo médio", "Custo mínimo"]
     gerar_grafico(dados=dados_custo_fitness, titulo=titulo, eixo_x="Geração", eixo_y="Custo",
                   nome_do_arquivo=path_graficos+nome_do_arquivo, legenda=legenda)

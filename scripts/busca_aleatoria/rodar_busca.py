@@ -3,7 +3,7 @@ from busca_aleatoria import busca_aleatoria
 
 
 N_SOLUCOES = 1000
-CRITERIO_DE_PARADA = 10
+CRITERIO_DE_PARADA = 20
 PATH_MAT_DADOS = '../../dados/elshafei_QAP.mat'
 REALIZACOES = 10
 PATH_SALVAR_MELHORES_SOLUCOES = "../../melhores_solucoes/busca-aleatoria/"
