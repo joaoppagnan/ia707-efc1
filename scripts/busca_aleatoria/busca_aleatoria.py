@@ -51,8 +51,8 @@ def busca_aleatoria(n_solucoes: int, criterio_de_parada: int, path_mat_dados: st
         melhor_solucao = solucoes[solucoes[:, 1].argsort()][-1]
 
     # gera o grafico
-    titulo = "Curvas de custo médio e mínimo para a realização " + str(realizacao) + " da busca aleatória"
-    nome_do_arquivo = "iteracao-" + str(realizacao) + ".pdf"
+    titulo = "Curvas de custo médio e mínimo para a realização " + str(realizacao+1) + " da busca aleatória"
+    nome_do_arquivo = "iteracao-" + str(realizacao+1) + ".pdf"
     legenda = ["Custo médio", "Custo mínimo"]
     gerar_grafico(dados=dados_custo_fitness, titulo=titulo, eixo_x="Iteração", eixo_y="Custo",
                   nome_do_arquivo=path_graficos+nome_do_arquivo, legenda=legenda)
